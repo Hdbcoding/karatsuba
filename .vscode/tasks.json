@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Karatsuba.Console/Karatsuba.Console.csproj"
+                "${workspaceFolder}/Karatsuba.Multiplier/Karatsuba.Multiplier.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

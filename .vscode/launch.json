@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Karatsuba.Console/bin/Debug/netcoreapp2.2/Karatsuba.Console.dll",
+            "program": "${workspaceFolder}/Karatsuba.Multiplier/bin/Debug/netcoreapp2.2/Karatsuba.Multiplier.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Karatsuba.Console",
+            "cwd": "${workspaceFolder}/Karatsuba.Multiplier",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "internalConsole",
             "stopAtEntry": false,
