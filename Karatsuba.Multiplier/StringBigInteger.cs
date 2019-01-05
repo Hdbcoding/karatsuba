@@ -138,23 +138,28 @@ namespace Karatsuba.Multiplier
 
         public static StringBigInteger KMultiply(StringBigInteger x, StringBigInteger y)
         {
+            if (x._value == "0" || y._value == "0") return new StringBigInteger("0");
+            if (x._value == "1") return y;
+            if (y._value == "1") return x;
             if (x.Length == 1 && y.Length == 1) return SingleDigitMultiply(x, y);
             var compare = CompareIgnoreSign(x, y);
             var bigger = compare >= 0 ? x : y;
             var smaller = compare >= 0 ? y : x;
             var n = bigger.Length;
             var n_2 = n / 2;
-            var a = Top(bigger, n_2);
-            var b = Bottom(bigger, n_2);
-            var c = Top(smaller, n_2);
-            var d = Bottom(smaller, n_2);
+            var a = Top(bigger, n_2, n);
+            var b = Bottom(bigger, n_2, n);
+            var c = Top(smaller, n_2, n);
+            var d = Bottom(smaller, n_2, n);
 
             Console.WriteLine($"... computing {x} * {y}");
             Console.WriteLine($"... length of bigger number: {n}");
             Console.WriteLine($"... a: {a}, b: {b}, c: {c}, d: {d}");
             var ac = KMultiply(a,c);
             var bd = KMultiply(b,d);
-            var ad_bc = KMultiply(a + b, c + d) - ac - bd;
+            var ad = KMultiply(a,d);
+            var bc = KMultiply(b,c);
+            var ad_bc = ad + bc; // KMultiply(a + b, c + d) - ac - bd;
             Console.WriteLine($"... ac: {ac}, bd: {bd}, ad+bc: {ad_bc}");
 
             var ac_n = MultiplyByTens(ac, n);
@@ -168,18 +173,20 @@ namespace Karatsuba.Multiplier
         private static StringBigInteger SingleDigitMultiply(StringBigInteger x, StringBigInteger y)
             => new StringBigInteger(((x._value[0] - '0') * (y._value[0] - '0')).ToString());
 
-        private static StringBigInteger Top(StringBigInteger x, int n)
+        private static StringBigInteger Top(StringBigInteger x, int n_2, int n)
         {
-            if (n == 0) return new StringBigInteger("1");
-            if (n >= x.Length) return x;
-            return new StringBigInteger(x._value.Substring(0, n));
+            var m = n_2 - (n - x.Length);
+            if (m == 0) return new StringBigInteger("0");
+            if (m >= x.Length) return x;
+            return new StringBigInteger(x._value.Substring(0, m));
         }
 
-        private static StringBigInteger Bottom(StringBigInteger x, int n)
+        private static StringBigInteger Bottom(StringBigInteger x, int n_2, int n)
         {
-            if (n == 0) return x;
-            if (n >= x.Length) return new StringBigInteger("1");
-            return new StringBigInteger(x._value.Substring(n));
+            var m = n_2 - (n - x.Length);
+            if (m == 0) return x;
+            if (m >= x.Length) return new StringBigInteger("0");
+            return new StringBigInteger(x._value.Substring(m));
         }
 
         private static StringBigInteger MultiplyByTens(StringBigInteger ac, int n)
