@@ -81,7 +81,7 @@ namespace Karatsuba.Multiplier
                     carry = value / 10;
                 }
 
-                value = value % 10;
+                value = value % 10; // wrong calculation! this is remainder, not modulus
 
                 sb.Insert(0, value);
                 i--;

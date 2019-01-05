@@ -6,11 +6,17 @@ namespace Karatsuba.Multiplier
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello world!");
-            var a = new StringBigInteger("12345678901234567890123456789012345678901234567890123456789012345678901234567890");
-            var b = new StringBigInteger("12345678901234567890123456789012345678901234567890123456789012345678901234567890");
-            Console.WriteLine(a + b);
-            Console.WriteLine(a - b);
+            // Console.WriteLine("Hello world!");
+            // var a = new StringBigInteger("12345678901234567890123456789012345678901234567890123456789012345678901234567890");
+            // var b = new StringBigInteger("12345678901234567890123456789012345678901234567890123456789012345678901234567890");
+            // Console.WriteLine(a + b);
+            // Console.WriteLine(a - b);
+
+            var a2 = new StringBigInteger("54321");
+            var b2 = new StringBigInteger("12345");
+            // Console.WriteLine(a2 + b2);
+            Console.WriteLine(a2 - b2);
+            Console.WriteLine(b2 - a2);
         }
     }
 }
