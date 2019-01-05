@@ -152,9 +152,9 @@ namespace Karatsuba.Multiplier
             var c = Top(smaller, n_2, n);
             var d = Bottom(smaller, n_2, n);
 
-            Console.WriteLine($"... computing {x} * {y}");
-            Console.WriteLine($"... length of bigger number: {n}");
-            Console.WriteLine($"... a: {a}, b: {b}, c: {c}, d: {d}");
+            // Console.WriteLine($"... computing {x} * {y}");
+            // Console.WriteLine($"... length of bigger number: {n}");
+            // Console.WriteLine($"... a: {a}, b: {b}, c: {c}, d: {d}");
             var ac = KMultiply(a,c);
             var bd = KMultiply(b,d);
             var ad = KMultiply(a,d);
@@ -165,7 +165,7 @@ namespace Karatsuba.Multiplier
             var ac_n = MultiplyByTens(ac, n);
             var ad_bc_n_2 = MultiplyByTens(ad_bc, n_2);
             var result = ac_n + ad_bc_n_2 + bd;
-            Console.WriteLine($"... final result: {ac_n} + {ad_bc_n_2} + {bd} = {result}");
+            // Console.WriteLine($"... final result: {ac_n} + {ad_bc_n_2} + {bd} = {result}");
 
             return result;
         }

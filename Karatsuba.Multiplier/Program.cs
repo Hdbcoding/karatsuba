@@ -7,7 +7,7 @@ namespace Karatsuba.Multiplier
         static void Main(string[] args)
         {
             var c = new StringBigInteger("100");
-            var d = new StringBigInteger("25");
+            var d = new StringBigInteger("100");
             PrintAllOperations(c, d);
 
             var a = new StringBigInteger("54");
@@ -34,9 +34,9 @@ namespace Karatsuba.Multiplier
             // var b4 = new StringBigInteger("123");
             // PrintAllOperations(a4, b4);
 
-            var a5 = new StringBigInteger("3141592653589793238462643383279502884197169399375105820974944592");
-            var b5 = new StringBigInteger("2718281828459045235360287471352662497757247093699959574966967627");
-            PrintAllOperations(a5, b5);
+            // var a5 = new StringBigInteger("3141592653589793238462643383279502884197169399375105820974944592");
+            // var b5 = new StringBigInteger("2718281828459045235360287471352662497757247093699959574966967627");
+            // PrintAllOperations(a5, b5);
         }
 
         static void PrintAllOperations(StringBigInteger a, StringBigInteger b)
