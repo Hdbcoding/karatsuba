@@ -16,14 +16,14 @@ namespace Karatsuba.Multiplier
                 _isNegative = true;
                 value = value.Substring(1);
             }
-            if (IsInteger(value)) _value = value;
+            if (IsInteger(value)) _value = TrimLeadingZeroes(value);
             else throw new ArgumentException("value must represent an integer");
         }
 
         private StringBigInteger(string value, bool isNegative)
         {
             _isNegative = isNegative;
-            _value = value;
+            _value = TrimLeadingZeroes(value);
         }
 
         private static bool IsInteger(string value)
@@ -39,54 +39,71 @@ namespace Karatsuba.Multiplier
             return value[0] == '-';
         }
 
+        private static string TrimLeadingZeroes(string value)
+        {
+            int lastLeadingZero = -1;
+            int i = 0;
+            while (i < value.Length && value[i] == '0') 
+                lastLeadingZero = i++;
+            value = value.Substring(lastLeadingZero + 1);
+            if (value == "") value = "0";
+            return value;
+        }
+
         private static StringBigInteger Add(StringBigInteger a, StringBigInteger b)
         {
             bool sameSign = a._isNegative == b._isNegative;
-
-            if (sameSign) return new StringBigInteger(AddStrings(a._value, b._value), a._isNegative);
+            var compare = CompareIgnoreSign(a, b);
+            var aIsSmaller = compare < 0;
+            var bigger = aIsSmaller ? b : a;
+            var smaller = aIsSmaller ? a : b;
+            if (sameSign)
+            {
+                var addResult = AddStrings(bigger._value, smaller._value);
+                return new StringBigInteger(addResult, a._isNegative);
+            }
+            else if (compare == 0 && b._isNegative) return new StringBigInteger("0");
             else
             {
-                var compare = CompareIgnoreSign(a, b);
-                if (compare == 0 && b._isNegative) return new StringBigInteger("0");
-                var aIsSmaller = compare < 0;
                 var isNegative = aIsSmaller == b._isNegative;
-                var bigger = aIsSmaller ? b : a;
-                var smaller = aIsSmaller ? a : b;
-
                 string addResult = AddStrings(bigger._value, smaller._value, true);
                 return new StringBigInteger(addResult, isNegative);
             }
         }
 
+        //note: a is always bigger
         private static string AddStrings(string a, string b, bool subtract = false)
         {
+            var sb = new StringBuilder();
             int i = a.Length - 1;
             int j = b.Length - 1;
             int carry = 0;
-            StringBuilder sb = new StringBuilder();
-
-            while (i >= 0 && j >= 0)
+            while (i >= 0)
             {
-                int a_i = a[i] - '0';
-                int b_j = b[j] - '0';
+                int a_i = a[i] - '0' + carry;
+                int b_j = j >= 0 ? b[j] - '0' : 0;
                 int value = 0;
                 if (subtract)
                 {
-                    value = a_i - b_j + carry;
+                    value = a_i - b_j;
                     carry = value < 0 ? -1 : 0;
                 }
                 else
                 {
-                    value = a_i + b_j + carry;
+                    value = a_i + b_j;
                     carry = value / 10;
                 }
 
-                value = value % 10; // wrong calculation! this is remainder, not modulus
+                value = value % 10;
+                if (value < 0) value += 10;
 
                 sb.Insert(0, value);
                 i--;
                 j--;
             }
+
+            if (carry > 0) sb.Insert(0, 1);
+
             return sb.ToString();
         }
 
@@ -110,7 +127,7 @@ namespace Karatsuba.Multiplier
 
         public override string ToString()
         {
-            return _value;
+            return (_isNegative ? "-" : "") + _value;
         }
     }
 }
