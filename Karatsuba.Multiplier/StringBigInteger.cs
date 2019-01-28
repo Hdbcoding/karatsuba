@@ -152,20 +152,18 @@ namespace Karatsuba.Multiplier
             var c = Top(smaller, n_2, n);
             var d = Bottom(smaller, n_2, n);
 
-            // Console.WriteLine($"... computing {x} * {y}");
-            // Console.WriteLine($"... length of bigger number: {n}");
-            // Console.WriteLine($"... a: {a}, b: {b}, c: {c}, d: {d}");
             var ac = KMultiply(a,c);
             var bd = KMultiply(b,d);
             var ad = KMultiply(a,d);
             var bc = KMultiply(b,c);
+            //note - this is not really doing karatsuba, because it's not doing the proper calculation that avoids 4 recursive calls
+            //solving that problem requires modifying the algorithm to correctly handle multiplication of two numbers
+            //with different numbers of digits
             var ad_bc = ad + bc; // KMultiply(a + b, c + d) - ac - bd;
-            Console.WriteLine($"... ac: {ac}, bd: {bd}, ad+bc: {ad_bc}");
 
             var ac_n = MultiplyByTens(ac, n);
             var ad_bc_n_2 = MultiplyByTens(ad_bc, n_2);
             var result = ac_n + ad_bc_n_2 + bd;
-            // Console.WriteLine($"... final result: {ac_n} + {ad_bc_n_2} + {bd} = {result}");
 
             return result;
         }
